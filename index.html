@@ -9,21 +9,21 @@
 
 <body>
 
-<h2 id="x_result">0</h2>
-<h2 id="y_result">0</h2>
+<strong id="x_result" class="x">0</strong>
+<strong id="y_result" class="y">0</strong>
 <h2 id="record_point">0</h2>
 <br>
-
 
 <form enctype="multipart/form-data"
 	action="/cgi-bin/canvas_points.py"
 	method="POST">
 	<p><input type="hidden" id="points_Coor" name="points" value="" /></p>
 	<p><input type="hidden" id="Image_name" name="I_name" value="" /></p>
-	<p><input type="submit" value="Submit"/></p>
+	<p><input class="button1" type="submit" value="Submit"/></p>
 </form>
 
-<button onclick="Clear()">Clear</button>
+<button class="button2" onclick="Clear()">Clear</button>
+<br>
 
 <div style="margin-left:10px; margin-top:10px">
   <canvas id="canvas" width="900" height="800" style="border: 1px blue solid"></canvas>
@@ -36,6 +36,10 @@
 window.location.reload();
 }
 </script>
+
+<script id="__bs_script__">//<![CDATA[
+    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.6'><\/script>".replace("HOST", location.hostname));
+//]]></script>
 
 </body>
 </html>

@@ -80,7 +80,7 @@ function DisplayCrop(location) {
     context2.putImageData(imageData, 10, 10+number_cropped[1]);
     number_cropped[0] += 1;
     number_cropped[1] += crop_height + 5;
-    
+
     console.log(imageData);
     var canvas_tmp = document.createElement('canvas');
     var context_tmp = canvas_tmp.getContext('2d');
@@ -113,8 +113,8 @@ function readMouseMove(event){
   var result_x = document.getElementById('x_result');
   var result_y = document.getElementById('y_result');
   if (event.clientX >= canvas.getBoundingClientRect().left && event.clientY >= canvas.getBoundingClientRect().top){
-    result_x.innerHTML = event.clientX - canvas.getBoundingClientRect().left;
-    result_y.innerHTML = event.clientY - canvas.getBoundingClientRect().top;
+    result_x.innerHTML = Math.floor(event.clientX - canvas.getBoundingClientRect().left);
+    result_y.innerHTML = Math.floor(event.clientY - canvas.getBoundingClientRect().top);
   }else {
     result_x.innerHTML = '--';
     result_y.innerHTML = '--';
