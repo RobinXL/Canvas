@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>WebTunings</title>
+    <link href="index.css" rel="stylesheet">
+</head>
+
+<body>
+
+<h2 id="x_result">0</h2>
+<h2 id="y_result">0</h2>
+<h2 id="record_point">0</h2>
+<br>
+
+<div style="margin-left:10px;">
+  <canvas id="canvas" width="1000" height="600" style="border: 10px blue solid"></canvas>
+  <canvas id="canvas2" width="400" height="600" style="border: 10px green solid"></canvas>
+</div>
+
+<form enctype="multipart/form-data"
+	action="/cgi-bin/canvas_points.py"
+	method="POST">
+	<p><input type="hidden" id="points_Coor" name="points" value="" /></p>
+	<p><input type="hidden" id="Image_name" name="I_name" value="" /></p>
+	<p><input type="submit" value="Submit"/></p>
+</form>
+
+<button onclick="Clear()">Clear</button>
+
+<script src="index.js"></script>
+
+<script>function Clear() {
+window.location.reload();
+}
+</script>
+
+</body>
+</html>
