@@ -14,10 +14,6 @@
 <h2 id="record_point">0</h2>
 <br>
 
-<div style="margin-left:10px;">
-  <canvas id="canvas" width="1000" height="600" style="border: 10px blue solid"></canvas>
-  <canvas id="canvas2" width="400" height="600" style="border: 10px green solid"></canvas>
-</div>
 
 <form enctype="multipart/form-data"
 	action="/cgi-bin/canvas_points.py"
@@ -28,6 +24,11 @@
 </form>
 
 <button onclick="Clear()">Clear</button>
+
+<div style="margin-left:10px; margin-top:10px">
+  <canvas id="canvas" width="900" height="800" style="border: 1px blue solid"></canvas>
+  <canvas id="canvas2" width="300" height="800" style="border: 1px green solid"></canvas>
+</div>
 
 <script src="index.js"></script>
 

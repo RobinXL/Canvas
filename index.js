@@ -67,16 +67,27 @@ function dragStop(event) {
     Coordinate.value = points.join(" * ");
 }
 
+var number_cropped=[0,0]; //number_cropped = [num_of_pics, y_position]
+//var dataURL=[];
+var canvases=[];
 function DisplayCrop(location) {
-    canvas = document.getElementById("canvas2");
-    context = canvas.getContext('2d');
+    console.log('start DisplayCrop');
+    var canvas2 = document.getElementById("canvas2");
     crop_width = location[1][0] - location[0][0];
     crop_height = location[1][1] - location[0][1];
-    img1.onload = function(){
-      context.drawImage(img1, location[0][0], location[0][1], crop_width, crop_height);
-    };
-    img1.src = "./image/test_formula.jpg";
-
+    var imageData = context.getImageData(location[0][0], location[0][1], crop_width, crop_height);
+    var context2 = canvas2.getContext('2d');
+    context2.putImageData(imageData, 10, 10+number_cropped[1]);
+    number_cropped[0] += 1;
+    number_cropped[1] += crop_height + 5;
+    
+    console.log(imageData);
+    var canvas_tmp = document.createElement('canvas');
+    var context_tmp = canvas_tmp.getContext('2d');
+    context_tmp.putImageData(imageData, 0, 0);
+    var dataURL = canvas_tmp.toDataURL();
+    canvases.push(dataURL);
+    console.log(canvases);
 }
 
 function init() {
@@ -101,8 +112,13 @@ function init() {
 function readMouseMove(event){
   var result_x = document.getElementById('x_result');
   var result_y = document.getElementById('y_result');
-  result_x.innerHTML = event.clientX;
-  result_y.innerHTML = event.clientY;
+  if (event.clientX >= canvas.getBoundingClientRect().left && event.clientY >= canvas.getBoundingClientRect().top){
+    result_x.innerHTML = event.clientX - canvas.getBoundingClientRect().left;
+    result_y.innerHTML = event.clientY - canvas.getBoundingClientRect().top;
+  }else {
+    result_x.innerHTML = '--';
+    result_y.innerHTML = '--';
+  }
 }
 
 document.onmousemove = readMouseMove;
