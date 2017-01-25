@@ -8,17 +8,20 @@
 </head>
 
 <body>
-
+<strong class="title"> Mouse Coordinate:</strong>
 <strong id="x_result" class="x">0</strong>
 <strong id="y_result" class="y">0</strong>
-<h2 id="record_point">0</h2>
+
+<br>
+<strong class="title"> Number Cropped:</strong>
+<strong class="count" id="record_point">0</strong>
 <br>
 
 <form enctype="multipart/form-data"
 	action="/cgi-bin/canvas_points.py"
 	method="POST">
 	<p><input type="hidden" id="points_Coor" name="points" value="" /></p>
-	<p><input type="hidden" id="Image_name" name="I_name" value="" /></p>
+	<p><input type="hidden" id="Images" name="Im_s" value="" /></p>
 	<p><input class="button1" type="submit" value="Submit"/></p>
 </form>
 
@@ -26,7 +29,8 @@
 <br>
 
 <div style="margin-left:10px; margin-top:10px">
-  <canvas id="canvas" width="900" height="800" style="border: 1px blue solid"></canvas>
+  <canvas id="canvas" style="border: 1px blue solid"></canvas>
+  <br>
   <canvas id="canvas2" width="300" height="800" style="border: 1px green solid"></canvas>
 </div>
 
