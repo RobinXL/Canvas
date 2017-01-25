@@ -78,7 +78,7 @@ var canvases=[];
 
 function DisplayCrop(location) {
     console.log('start DisplayCrop');
-    // var canvas2 = document.getElementById("canvas2");
+    canvas2 = document.getElementById("canvas2");
     crop_width = location[1][0] - location[0][0];
     crop_height = location[1][1] - location[0][1];
     var imageData = context.getImageData(location[0][0], location[0][1], crop_width, crop_height);
@@ -110,9 +110,9 @@ function init() {
     };
     img1.src = "./image/test_formula.jpg";
 
-    canvas2 = document.getElementById("canvas2");
-    canvas2.width = img1.width;
-    canvas2.height = img1.height;
+    // canvas2 = document.getElementById("canvas2");
+    // canvas2.width = img1.width;
+    // canvas2.height = img1.height;
 
     // context.strokeStyle = 'purple';
     context.lineWidth = 1;
