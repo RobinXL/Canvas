@@ -1,12 +1,17 @@
 var canvas,
     canvas2,
     context,
+    context2,
     dragging = false,
     dragStartLocation,
     snapshot,
+    // snapshot_old,
     points = [],
     point = [[],[]];
 
+var number_cropped=[0,[],[]]; //number_cropped = [num_of_pics, [x_position list], [y_position list]]
+//var dataURL=[];
+var canvases=[];
 
 function getCanvasCoordinates(event) {
     var x = event.clientX - canvas.getBoundingClientRect().left,
@@ -16,7 +21,9 @@ function getCanvasCoordinates(event) {
 }
 
 function takeSnapshot() {
+    // snapshot_old = snapshot;
     snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
+    // snapshot2 = context2.getImageData(0, 0, canvas2.width, canvas2.height);
 }
 
 function restoreSnapshot() {
@@ -35,12 +42,30 @@ function drawLine(position) {
     context.stroke();
 }
 
+var undo_num = 0;
+var attention = document.getElementById('att');
+
+function undo() {
+  if (undo_num == 0){
+    restoreSnapshot();
+    canvases.pop();
+    imageData_list.pop();
+    DrawCropped();
+    display_num_crops();
+  } else {
+    attention.innerHTML = 'You can only undo one time.';
+  }
+  undo_num += 1;
+}
+
 function dragStart(event) {
     dragging = true;
     dragStartLocation = getCanvasCoordinates(event);
     takeSnapshot();
     console.log('dragStart');
+    attention.innerHTML = '';
     point[0]=[dragStartLocation.x, dragStartLocation.y];
+    undo_num = 0;
 }
 
 function drag(event) {
@@ -59,35 +84,46 @@ function dragStop(event) {
     var position = getCanvasCoordinates(event);
     drawLine(position);
     console.log('dragStop');
+    // restoreSnapshot();
     point[1]=[position.x, position.y];
     DisplayCrop(point);
     points.push(point);
     point = [[],[]];
 
-    var record_point = document.getElementById('record_point');
-    record_point.innerHTML = number_cropped[0];
+    display_num_crops();
+    // var record_point = document.getElementById('record_point');
+    // record_point.innerHTML = canvases.length;
 
     //passing points Coordinate to cgi form, python process
     var Coordinate = document.getElementById('points_Coor');
     Coordinate.value = points.join(" * ");
+    // undo();
 }
 
-var number_cropped=[0,0]; //number_cropped = [num_of_pics, y_position]
-//var dataURL=[];
-var canvases=[];
+function display_num_crops(){
+  var record_point = document.getElementById('record_point');
+  record_point.innerHTML = canvases.length;
+}
 
-function DisplayCrop(location) {
+var imageData_list=[];
+var imageData;
+
+function DisplayCrop(location=point) {
     console.log('start DisplayCrop');
-    canvas2 = document.getElementById("canvas2");
+    // canvas2 = document.getElementById("canvas2");
     crop_width = location[1][0] - location[0][0];
     crop_height = location[1][1] - location[0][1];
-    var imageData = context.getImageData(location[0][0], location[0][1], crop_width, crop_height);
-    var context2 = canvas2.getContext('2d');
-    context2.putImageData(imageData, location[0][0], location[0][1]);
-    number_cropped[0] += 1;
-    number_cropped[1] += crop_height + 5;
+    imageData = context.getImageData(location[0][0]+1, location[0][1]+1, crop_width-2, crop_height-2);
 
-    console.log(imageData);
+    imageData_list.push(imageData);
+    console.log(imageData_list.length);
+    number_cropped[1].push(crop_width);
+
+    // context2.putImageData(imageData, location[0][0], location[0][1]);
+    number_cropped[0] += 1;
+    // number_cropped[1].push(crop_width);
+    number_cropped[2].push(crop_height);
+    // console.log(imageData);
     var canvas_tmp = document.createElement('canvas');
     var context_tmp = canvas_tmp.getContext('2d');
     context_tmp.putImageData(imageData, 0, 0);
@@ -97,6 +133,23 @@ function DisplayCrop(location) {
 
     var ExportCroppedImages = document.getElementById("Images");
     ExportCroppedImages.value = canvases;
+    DrawCropped();
+}
+
+var position_y = 0;
+
+function DrawCropped(){
+  //snapshot restore blank here
+  context2.putImageData(snapshot2, 0, 0);
+  // canvas2.height = 20;
+  for(i=0; i<imageData_list.length; i++){
+    // i = imageData_list.length-1;
+    console.log(i);
+    context2.putImageData(imageData_list[i], 0, position_y);
+    position_y += number_cropped[2][i];
+  }
+  // canvas2.height = 200;
+  position_y = 0;
 }
 
 function init() {
@@ -108,11 +161,13 @@ function init() {
       canvas.height = img1.height;
       context.drawImage(img1, 0, 0, img1.width, img1.height);
     };
-    img1.src = "./image/test_formula.jpg";
+    img1.src = "./image/test_formula.jpg?"+new Date().getTime();
 
-    // canvas2 = document.getElementById("canvas2");
+    canvas2 = document.getElementById("canvas2");
+    context2 = canvas2.getContext('2d');
+    snapshot2 = context2.getImageData(0, 0, canvas2.width, canvas2.height);
     // canvas2.width = img1.width;
-    // canvas2.height = img1.height;
+    // canvas2.height = 200;
 
     // context.strokeStyle = 'purple';
     context.lineWidth = 1;
