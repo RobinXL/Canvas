@@ -129,7 +129,10 @@ function DisplayCrop(location=point) {
     }
 
     imageData_list.push(imageData);
-    console.log(imageData_list.length);
+    console.log("imageData length:", imageData_list.length);
+    console.log("imageData: ", imageData);
+    console.log("width & height:", crop_width, crop_height);
+    console.log(imageData.width);
     number_cropped[1].push(crop_width);
 
     // context2.putImageData(imageData, location[0][0], location[0][1]);
