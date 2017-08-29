@@ -141,8 +141,8 @@ function DisplayCrop(location=point) {
     number_cropped[2].push(crop_height);
     // console.log(imageData);
     var canvas_tmp = document.createElement('canvas');
-    canvas_tmp.width = crop_width
-    canvas_tmp.height = crop_height
+    canvas_tmp.width = imageData.width;
+    canvas_tmp.height = imageData.height;
     console.log(canvas_tmp.width, canvas_tmp.height);
     var context_tmp = canvas_tmp.getContext('2d');
     // console.log(context_tmp.width, context_tmp.height);
