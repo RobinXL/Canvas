@@ -15,6 +15,7 @@
 <!-- <div>
 <canvas id="canvas2 "width="1000" height="230" style="border: 1px green solid; position: fixed;left:350px"></canvas>
 </div> -->
+<!-- <img id="image" src="http://exchangedownloads.smarttech.com/public/content/42/4281a98f-949b-4247-b74c-e899a78b051a/previews/small/0001.png" style="left:0px; top:0px;position: absolute;"> -->
 <br>
 <strong class="title"> Number Cropped:</strong>
 <br>
@@ -32,6 +33,11 @@
 
 <button class="button2" onclick="Clear()">Clear</button>
 <button class="button2" onclick="undo()">Undo</button>
+<form enctype="multipart/form-data"
+	action="/cgi-bin/rotate.sh"
+	method="POST">
+	<input class="button3" type="submit" value="Rotate"/>
+</form>
 <br>
 <strong class="attention" id="att"></strong>
 <br>

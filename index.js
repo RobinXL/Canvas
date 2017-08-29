@@ -37,6 +37,8 @@ function drawLine(position) {
     context.lineTo(position.x, position.y);
     context.lineTo(position.x, dragStartLocation.y);
     context.lineTo(dragStartLocation.x, dragStartLocation.y);
+    // context.moveTo(position.x, 0);
+    // context.lineTo(position.x, window.innerHeight)
     //context.lineTo(position.x, position.y);
     context.strokeStyle = 'purple';
     context.stroke();
@@ -70,6 +72,7 @@ function dragStart(event) {
 
 function drag(event) {
     var position;
+
     if (dragging === true) {
         restoreSnapshot();
         position = getCanvasCoordinates(event);
@@ -111,9 +114,19 @@ var imageData;
 function DisplayCrop(location=point) {
     console.log('start DisplayCrop');
     // canvas2 = document.getElementById("canvas2");
-    crop_width = location[1][0] - location[0][0];
-    crop_height = location[1][1] - location[0][1];
-    imageData = context.getImageData(location[0][0]+1, location[0][1]+1, crop_width-2, crop_height-2);
+    // coor_list = [[],[]]; //[['x1,x2'],['y1,y2']]
+    // coor_list[0].push(location)
+    crop_width = Math.abs(location[1][0] - location[0][0]);
+    crop_height = Math.abs(location[1][1] - location[0][1]);
+    if (location[0][0] <= location[1][0] && location[0][1] <= location[1][1]){
+      imageData = context.getImageData(location[0][0]+1, location[0][1]+1, crop_width-2, crop_height-2);
+    } else if (location[0][0] > location[1][0] && location[0][1] < location[1][1]) {
+      imageData = context.getImageData(location[1][0]+1, location[0][1]+1, crop_width-2, crop_height-2);
+    } else if (location[0][0] < location[1][0] && location[0][1] > location[1][1]) {
+      imageData = context.getImageData(location[0][0]+1, location[1][1]+1, crop_width-2, crop_height-2);
+    } else if (location[0][0] > location[1][0] && location[0][1] > location[1][1]) {
+      imageData = context.getImageData(location[1][0]+1, location[1][1]+1, crop_width-2, crop_height-2);
+    }
 
     imageData_list.push(imageData);
     console.log(imageData_list.length);
@@ -176,6 +189,8 @@ function init() {
     canvas.addEventListener('mousedown', dragStart, false);
     canvas.addEventListener('mousemove', drag, false);
     canvas.addEventListener('mouseup', dragStop, false);
+    // canvas.addEventListener('mousemove', dragStop, false);
+
 }
 
 function readMouseMove(event){
@@ -188,8 +203,10 @@ function readMouseMove(event){
     result_x.innerHTML = '--';
     result_y.innerHTML = '--';
   }
+
 }
 
 document.onmousemove = readMouseMove;
+
 
 window.addEventListener('load', init, false);
