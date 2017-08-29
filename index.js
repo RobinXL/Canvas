@@ -141,7 +141,9 @@ function DisplayCrop(location=point) {
     number_cropped[2].push(crop_height);
     // console.log(imageData);
     var canvas_tmp = document.createElement('canvas');
+    console.log(canvas_tmp.width, canvas_tmp.height);
     var context_tmp = canvas_tmp.getContext('2d');
+    console.log(context_tmp.width, context_tmp.height);
     context_tmp.putImageData(imageData, 0, 0);
     var dataURL = canvas_tmp.toDataURL();
     canvases.push(dataURL);
